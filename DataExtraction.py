@@ -66,4 +66,5 @@ class ExtractText():
                 d['@id'] = id
                 data.append(d)
         df = pd.DataFrame(data)
-        df.to_csv(self.out_folder + self.filename.split('/')[-1].rstrip('xml') + 'csv')
+        df = df [['@id', '@line', 'author', 'time', 'text']]
+        df.to_csv(self.out_folder + self.filename.split('/')[-1].rstrip('xml') + 'csv', index=False)
