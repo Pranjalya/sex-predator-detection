@@ -2,22 +2,33 @@ const express = require('express')
 const mongoose = require('mongoose')
 const bodyParser = require('body-parser')
 const { MONGO_URI, PORT } = require('./config')
+const cors = require('cors')
 
 const app = express()
 
-// Body Parser middleware
-app.use(
-	bodyParser.urlencoded({
-		extended: false,
-	})
-)
+const userRouter = require('./routes/_users')
+
+app.use(cors())
 app.use(bodyParser.json())
+app.use(bodyParser.urlencoded({ extended: false }))
 
 mongoose
-	.connect(MONGO_URI, { useNewUrlParser: true })
+	.connect(MONGO_URI, {
+		useUnifiedTopology: true,
+		useNewUrlParser: true,
+		useCreateIndex: true,
+	})
 	.then(() => console.log('Database succefully connected'))
 	.catch(err => console.log(err))
 
-const port = PORT || 8080
+var server = app.listen(PORT || 8080, () => {
+	console.log('server is running on port', server.address().port)
+})
 
-app.listen(port, () => console.log(`Server running on port #${port}`))
+app.use('/user', userRouter)
+
+// const io = require('socket.io').listen(server)
+// app.use(function (req, res, next) {
+// 	req.io = io
+// 	next()
+// })
