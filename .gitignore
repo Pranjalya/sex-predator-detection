@@ -1,2 +1,6 @@
 # Ignore dataset
 dataset/*
+
+/App/node_modules
+/App/.prettierrc
+/App/config.js

@@ -1,0 +1,24 @@
+{
+	"name": "chat-app",
+	"version": "1.0.0",
+	"description": "This is a real-time chat application based on MERN stack and SocketIO.",
+	"main": "server.js",
+	"scripts": {
+		"start": "node server.js",
+		"server": "nodemon server.js",
+		"test": "test"
+	},
+	"author": "Mohammad Faizan Azim",
+	"license": "ISC",
+	"dependencies": {
+		"bcryptjs": "^2.4.3",
+		"body-parser": "^1.19.0",
+		"cors": "^2.8.5",
+		"express": "^4.17.1",
+		"is-empty": "^1.2.0",
+		"jsonwebtoken": "^8.5.1",
+		"mongoose": "^5.9.23",
+		"nodemon": "^2.0.4",
+		"validator": "^13.1.1"
+	}
+}
