@@ -4,3 +4,4 @@ dataset/*
 /App/node_modules
 /App/.prettierrc
 /App/config.js
+/App/client/node_modules
