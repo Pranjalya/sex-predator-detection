@@ -100,7 +100,7 @@ router.get('/me', auth, async (req, res) => {
 		const user = await User.findById(req.user.id)
 		return res.status(200).json(user)
 	} catch (e) {
-		return res.status(500).send({ message: 'Error in fetching user' })
+		return res.status(500).send({ general: 'Error in fetching user' })
 	}
 })
 
