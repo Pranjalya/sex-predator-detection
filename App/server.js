@@ -27,8 +27,8 @@ var server = app.listen(PORT || 8080, () => {
 
 app.use('/user', userRouter)
 
-// const io = require('socket.io').listen(server)
-// app.use(function (req, res, next) {
-// 	req.io = io
-// 	next()
-// })
+const io = require('socket.io').listen(server)
+app.use(function (req, res, next) {
+	req.io = io
+	next()
+})
