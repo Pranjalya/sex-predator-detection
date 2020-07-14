@@ -3,11 +3,10 @@ const jwt = require('jsonwebtoken')
 const bcrypt = require('bcryptjs')
 const router = express.Router()
 
-const auth = require('../util/auth')
-
 const { SECRET_KEY } = require('../config')
 
 const { validateSignUpData, validateLoginData } = require('../util/validators')
+const auth = require('../util/auth')
 
 const User = require('../models/users')
 
@@ -103,6 +102,16 @@ router.get('/me', auth, async (req, res) => {
 	} catch (e) {
 		return res.status(500).send({ message: 'Error in fetching user' })
 	}
+})
+
+router.get('/all', auth, (req, res) => {
+	User.find({})
+		.then(data => {
+			return res.status(200).json(data)
+		})
+		.catch(err => {
+			return res.status(500).json({ error: err })
+		})
 })
 
 module.exports = router
