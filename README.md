@@ -6,8 +6,6 @@ Main Google Drive directory related to project : https://drive.google.com/folder
 
 - EDA includes cleaning of data and performing some basic explorations.
 
-- Basic ML Analysis contains TF-IDF vectorizing and using various classic ML tools for the classification.
-
 ## Available Data
 
 All Data is available with information and in XML format here :- 
