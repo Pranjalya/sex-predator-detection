@@ -132,7 +132,7 @@ class login extends Component {
 									variant='body2'
 									color='primary'
 									component={Link}
-									to='/signup'
+									to='/register'
 								>
 									here
 								</Typography>
