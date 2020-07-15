@@ -26,11 +26,11 @@ var server = app.listen(PORT || 8080, () => {
 	console.log('server is running on port', server.address().port)
 })
 
-app.use('/user', userRouter)
-app.use('/conversation', conversationRouter)
-
 const io = require('socket.io').listen(server)
 app.use(function (req, res, next) {
 	req.io = io
 	next()
 })
+
+app.use('/user', userRouter)
+app.use('/conversation', conversationRouter)

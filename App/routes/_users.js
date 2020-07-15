@@ -38,11 +38,8 @@ router.post('/signup', async (req, res) => {
 
 	let user = await User.findOne({ email })
 	if (user) {
-		return res.status(400).json({
-			errors: {
-				handle: 'This email is already taken',
-			},
-		})
+		errors.general = 'Email is already registered'
+		return res.status(400).json(errors)
 	}
 
 	password = await bcrypt.hash(password, 12)
@@ -100,7 +97,7 @@ router.get('/me', auth, async (req, res) => {
 		const user = await User.findById(req.user.id)
 		return res.status(200).json(user)
 	} catch (e) {
-		return res.status(500).send({ general: 'Error in fetching user' })
+		return res.status(500).send({ error: 'Error in fetching user' })
 	}
 })
 

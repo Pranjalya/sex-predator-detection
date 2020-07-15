@@ -5,6 +5,16 @@ const Conversation = require('../models/conversation')
 
 const auth = require('../util/auth')
 
+router.get('/:id', auth, (req, res) => {
+	Conversation.findOne({ _id: req.params.id }, (err, data) => {
+		if (err) {
+			return res.status(404).json({ message: 'Conversation not found' })
+		}
+
+		return res.status(200).send(data)
+	})
+})
+
 router.get('/conv/:id', auth, (req, res) => {
 	let r_id = req.params.id
 
@@ -56,7 +66,11 @@ router.post('/message', auth, (req, res) => {
 				})
 			}
 
-			// req.io.sockets.emit('Message', req.body)
+			req.io.sockets.emit(`Message`, {
+				...req.body,
+				author: req.user.id,
+				_id: `${req.user.id}-${Date.now()}`,
+			})
 
 			return res.status(200).json(data)
 		}
