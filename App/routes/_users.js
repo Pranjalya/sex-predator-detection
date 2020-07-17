@@ -6,6 +6,7 @@ const router = express.Router()
 const { SECRET_KEY } = require('../config')
 
 const { validateSignUpData, validateLoginData } = require('../util/validators')
+const auth = require('../util/auth')
 
 const User = require('../models/users')
 
@@ -18,7 +19,7 @@ function generateToken(user) {
 		},
 		SECRET_KEY,
 		{
-			expiresIn: '7h',
+			expiresIn: '1h',
 		}
 	)
 }
@@ -37,11 +38,8 @@ router.post('/signup', async (req, res) => {
 
 	let user = await User.findOne({ email })
 	if (user) {
-		return res.status(400).json({
-			errors: {
-				handle: 'This email is already taken',
-			},
-		})
+		errors.general = 'Email is already registered'
+		return res.status(400).json(errors)
 	}
 
 	password = await bcrypt.hash(password, 12)
@@ -79,7 +77,7 @@ router.post('/login', async (req, res) => {
 		return res.status(400).json(errors)
 	}
 
-	const match = await bcrypt.compare(req.body.password, user.password)
+	const match = await bcrypt.compare(password, user.password)
 	if (!match) {
 		errors.general = 'Wrong password'
 		return res.status(400).json(errors)
@@ -92,6 +90,25 @@ router.post('/login', async (req, res) => {
 		id: user._id,
 		token,
 	})
+})
+
+router.get('/me', auth, async (req, res) => {
+	try {
+		const user = await User.findById(req.user.id)
+		return res.status(200).json(user)
+	} catch (e) {
+		return res.status(500).send({ error: 'Error in fetching user' })
+	}
+})
+
+router.get('/all', auth, (req, res) => {
+	User.find({})
+		.then(data => {
+			return res.status(200).json(data)
+		})
+		.catch(err => {
+			return res.status(500).json({ error: err })
+		})
 })
 
 module.exports = router

@@ -7,6 +7,7 @@ const cors = require('cors')
 const app = express()
 
 const userRouter = require('./routes/_users')
+const conversationRouter = require('./routes/_conversation')
 
 app.use(cors())
 app.use(bodyParser.json())
@@ -25,10 +26,11 @@ var server = app.listen(PORT || 8080, () => {
 	console.log('server is running on port', server.address().port)
 })
 
-app.use('/user', userRouter)
+const io = require('socket.io').listen(server)
+app.use(function (req, res, next) {
+	req.io = io
+	next()
+})
 
-// const io = require('socket.io').listen(server)
-// app.use(function (req, res, next) {
-// 	req.io = io
-// 	next()
-// })
+app.use('/user', userRouter)
+app.use('/conversation', conversationRouter)
