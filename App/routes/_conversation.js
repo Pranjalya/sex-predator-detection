@@ -59,6 +59,7 @@ router.post('/message', auth, (req, res) => {
 	Conversation.findOneAndUpdate(
 		{ _id: convId },
 		{ $push: { messages: newMessage } },
+		{ new: true, useFindAndModify: false },
 		(err, data) => {
 			if (err) {
 				return res.send({

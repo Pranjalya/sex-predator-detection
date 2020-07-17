@@ -1,30 +1,46 @@
-import React, { useState, useEffect } from 'react'
+import React, { useState, useEffect, useRef } from 'react'
 import jwtDecode from 'jwt-decode'
 import axios from 'axios'
 
 import io from 'socket.io-client'
 import config from '../util/config'
+import bg from '../util/bg.png'
 
 import Chat from '../components/Chat'
 
 import withStyles from '@material-ui/core/styles/withStyles'
-import { Grid, Typography, Button, Divider, AppBar } from '@material-ui/core'
+import {
+	Grid,
+	Paper,
+	Avatar,
+	List,
+	ListItem,
+	ListItemText,
+	ListItemAvatar,
+} from '@material-ui/core'
 
 const styles = theme => ({
-	header: {
-		backgroundColor: 'rgba(177, 9, 235, 0.58)',
-		position: 'fixed',
-		width: '25vw',
-		padding: '15px 0px 15px 0px',
-		color: 'white',
-		textAlign: 'center',
-		boxShadow: '1px black',
+	paper: {
+		minHeight: 'calc(100vh - 64px)',
+		borderRadius: 0,
 	},
-	paperButton: {
-		// margin: '0px 5% 0px 5%',
-		textTransform: 'none',
-		width: '80%',
-		marginBottom: '10px',
+	sidebar: {
+		zIndex: 8,
+		height: '100vh',
+	},
+	list: {
+		height: '90vh',
+		overflowY: 'auto',
+	},
+	avatar: {
+		margin: theme.spacing(0, 3, 0, 1),
+	},
+	sidebarTitle: {
+		backgroundColor: '#53BD40',
+		color: 'white',
+		fontSize: '1.2rem',
+		fontWeight: 600,
+		padding: '15px 0px 15px 0px',
 	},
 })
 
@@ -36,6 +52,9 @@ const Home = props => {
 	const [errors, setErrors] = useState({})
 	const [conversation, setConversation] = useState()
 	const [lastMessage, setLastMessage] = useState('')
+	const [userOnChat, setUserOnChat] = useState('')
+
+	let chatBottom = useRef(null)
 
 	useEffect(() => {
 		const reloadMessages = () => {
@@ -43,6 +62,7 @@ const Home = props => {
 				.get(`/conversation/${conversation._id}`)
 				.then(data => {
 					setConversation(data.data)
+					scrollToBottom()
 				})
 				.catch(err => console.log(err))
 		}
@@ -51,6 +71,10 @@ const Home = props => {
 			reloadMessages()
 		}
 	}, [lastMessage])
+
+	const scrollToBottom = () => {
+		chatBottom.current.scrollIntoView({ behavior: 'smooth' })
+	}
 
 	useEffect(() => {
 		const token = localStorage.token
@@ -104,58 +128,52 @@ const Home = props => {
 		allUsers.map((item, index) => {
 			if (item._id !== user._id) {
 				return (
-					<>
-						<Grid item key={index}>
-							<Button
-								onClick={() => getConversation(item)}
-								className={classes.paperButton}
-							>
-								<Typography variant='body1'>{item.handle}</Typography>
-							</Button>
-							<Divider />
-						</Grid>
-					</>
+					<ListItem
+						className={classes.listItem}
+						key={index}
+						onClick={() => {
+							getConversation(item)
+							setUserOnChat(item)
+						}}
+						button
+					>
+						<ListItemAvatar className={classes.avatar}>
+							<Avatar>{item.handle.substring(0, 2).toUpperCase()}</Avatar>
+						</ListItemAvatar>
+						<ListItemText primary={item.handle} />
+					</ListItem>
 				)
 			}
 		})
 
 	return (
 		<div>
-			<Grid container direction='row' justify='flex-start' alignItems='stretch'>
-				<Grid
-					item
-					style={{ width: '25vw', height: '100vh', backgroundColor: '#efefef' }}
-				>
-					<div className={classes.header}>
-						<Typography variant='h5'>Chats</Typography>
-					</div>
-					<Grid
-						container
-						direction='column'
-						justify='center'
-						alignItems='center'
-						spacing={3}
-						style={{ marginTop: '80px' }}
-					>
-						{renderUsers}
-					</Grid>
+			<Grid container style={{ overflow: 'hidden' }}>
+				<Grid item md={3} className={classes.sidebar}>
+					<Paper className={classes.paper} square elevation={5}>
+						<Paper square className={classes.sidebarTitle}>
+							Users
+						</Paper>
+						<List className={classes.list}>{renderUsers}</List>
+					</Paper>
 				</Grid>
 				<Grid
 					item
+					md={9}
 					style={{
-						width: '75vw',
-						height: '100vh',
-						background: 'yellow',
-						overflowY: 'scroll',
+						background: `url(${bg})`,
+						backgroundSize: 'cover',
+						backfaceVisibility: '0.3',
 					}}
 				>
-					{conversation &&
-						conversation.messages &&
-						conversation.messages.map((item, index) => (
-							<div key={index}>
-								{item.text} by {item.author}
-							</div>
-						))}
+					{conversation && (
+						<Chat
+							user={user}
+							conversation={conversation}
+							userOnChat={userOnChat}
+							chatBottom={chatBottom}
+						/>
+					)}
 				</Grid>
 			</Grid>
 		</div>

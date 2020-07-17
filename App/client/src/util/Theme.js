@@ -9,9 +9,9 @@ const MuiTheme = {
 			default: '#fafafa',
 		},
 		primary: {
-			light: 'rgba(177, 9, 235, 0.58)',
-			main: 'rgba(176, 6, 235, 1)',
-			dark: 'rgba(109, 9, 143, 1)',
+			light: '#67DD51',
+			main: '#53BD40',
+			dark: '#439634',
 			contrastText: '#fff',
 		},
 		secondary: {
