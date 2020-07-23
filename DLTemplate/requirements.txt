@@ -1,0 +1,10 @@
+pandas==1.0.5 #handling email dataset
+spacy==2.3.0   #text pre-processing https://spacy.io/usage
+spacy-lookups-data==0.3.2 #for spacy lemmatizer
+scikit-learn==0.23.1  #metric calculation 
+Flask==1.1.2   # REST services
+
+#Please use right installation command by visiting https://pytorch.org/
+torch #for pytorch-1.5, ubuntu with cuda-10.2
+
+tensorboard==2.2.2 #for visualization of training and validation metrics
