@@ -23,3 +23,16 @@ It includes :
 - Formspring Data
   - Single XML file containing all the converstations
   - Labelled with severity of Cyber Bullying
+
+##### Current Dataset format
+
+|   Field                     |       Description       
+|:---------------------------:|:---------------------------------------------:
+|  __@id__                    | Unique id for a conversation 
+|  __@line__                  | Line number in a conversation
+|  __author__                 | Author of a message
+|  __time__                   | Timestamp of a message
+|  __text__                   | Conent of a message
+|  __sequence__               | Ratio of line number to length of conversation
+|  __sexual_predator__        | Whether author is sexual predator or not
+|  __predator_conversation__  | Whether conversation is predatory or not
