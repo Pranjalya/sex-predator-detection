@@ -1,6 +1,7 @@
 # Ignore dataset
 dataset/*
 safechat/node_modules/*
+safechat/node_modules
 safechat/src/store/firebase.js
 # Cordova
 safechat/src-cordova/platforms/*
@@ -8,3 +9,4 @@ safechat/src-cordova/plugins/*
 safechat/public/cordova.js
 safechat/dist/*
 safechat/src-cordova/*
+node_modules
