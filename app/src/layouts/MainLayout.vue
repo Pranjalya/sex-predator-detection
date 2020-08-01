@@ -105,9 +105,9 @@ export default {
     ...mapState("store", ["userDetails"]),
     title() {
       let currentPath = this.$route.fullPath;
-      if (currentPath == "/") return "SafeChat";
+      if (currentPath == "/") return "Chary";
       else if (currentPath.includes("/chat")) return this.otherUserDetails.name;
-      else if (currentPath == "/auth") return "Login";
+      else if (currentPath == "/auth") return "Welcome!";
     },
   },
   methods: {
