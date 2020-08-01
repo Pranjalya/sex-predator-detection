@@ -1,12 +1,12 @@
 # Ignore dataset
 dataset/*
-safechat/node_modules/*
-safechat/node_modules
-safechat/src/store/firebase.js
+app/node_modules/*
+app/node_modules
+app/src/store/firebase.js
 # Cordova
-safechat/src-cordova/platforms/*
-safechat/src-cordova/plugins/*
-safechat/public/cordova.js
-safechat/dist/*
-safechat/src-cordova/*
+app/src-cordova/platforms/*
+app/src-cordova/plugins/*
+app/public/cordova.js
+app/dist/*
+app/src-cordova/*
 node_modules
